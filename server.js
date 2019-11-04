@@ -4,8 +4,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const UserModel = require('./models/UserModel');
 const FeedModel = require('./models/FeedModel');
-const products = require('./products');
-console.log(products);
 // Create an express app
 const app = express();
 
@@ -82,9 +80,7 @@ app.post('/feed', (req, res)=>{
         username: req.body.username,
         comment: req.body.comment,
         tags: req.body.tags,
-        image: req.body.image,
-        likes: req.body.likes,
-        shares: req.body.shares
+        image: req.body.image
     }
 
     const newFeed = new FeedModel(formData);
@@ -97,7 +93,7 @@ app.post('/feed', (req, res)=>{
     .catch(err=>{
         res.json(err)
     });
-})
+});
 
 app.listen(3000, ()=>{
     console.log('You are connected!')
