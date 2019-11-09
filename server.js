@@ -2,10 +2,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 const UserRoutes = require('./routes/UserRoutes');
 const FeedRoutes = require('./routes/FeedRoutes');
 const PageRoutes = require('./routes/PageRoutes');
+
+const initPassportStrategy = require('./config/passport')
 
 
 // Create an express app
@@ -13,6 +16,9 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(passport.initialize()); //passport
+initPassportStrategy(passport); //passport-jwt
+
 
 const db = 'mongodb+srv://danyentezari:12345@cluster0-v8v8h.mongodb.net/test?retryWrites=true&w=majority';
 mongoose
@@ -24,6 +30,8 @@ mongoose
     console.log('error', err)
 });
  
+
+
 app.use(
     '/users', // http://example.com/users/...
     UserRoutes
@@ -31,6 +39,7 @@ app.use(
 
 app.use(
     '/feed',
+    passport.authenticate('jwt', {session: false}),
     FeedRoutes
 );
 
