@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res)=>{
-    res.send("<h1>Welcome Home</h1>")
+    res.send(`<h1>Welcome Home ${process.env.SOME_VAR}</h1>`)
 });
 
 router.get('/about', (req, res)=>{
@@ -24,5 +24,12 @@ router.get('/blog/:page', (req, res)=>{
     const page = req.params.page;
     res.send("<h1>Welcome to " + page + "</h1>")
 });
+
+router.get('*', (req, res)=>{
+    res.send("<h1>404!</h1>")
+});
+
+
+
 
 module.exports = router;

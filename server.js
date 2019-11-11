@@ -7,8 +7,9 @@ const passport = require('passport');
 const UserRoutes = require('./routes/UserRoutes');
 const FeedRoutes = require('./routes/FeedRoutes');
 const PageRoutes = require('./routes/PageRoutes');
+const CompanyRoutes = require('./routes/CompanyRoutes');
 
-const initPassportStrategy = require('./config/passport')
+const initPassportStrategy = require('./config/passport'); // function
 
 
 // Create an express app
@@ -41,6 +42,12 @@ app.use(
     '/feed',
     passport.authenticate('jwt', {session: false}),
     FeedRoutes
+);
+
+app.use(
+    '/company',
+    passport.authenticate('jwt', {session: false}),
+    CompanyRoutes
 );
 
 app.use(
