@@ -21,7 +21,7 @@ app.use(passport.initialize()); //passport
 initPassportStrategy(passport); //passport-jwt
 
 
-const db = 'mongodb+srv://danyentezari:12345@cluster0-v8v8h.mongodb.net/test?retryWrites=true&w=majority';
+const db = process.env.MONGO_URI;
 mongoose
 .connect(db, {useNewUrlParser: true, useUnifiedTopology: true}) //Promise
 .then(()=>{
@@ -56,6 +56,6 @@ app.use(
 );
 
 
-app.listen(3000, ()=>{
+app.listen(process.env.PORT || 3000, ()=>{
     console.log('You are connected!')
-})
+}) //http://127.0.0.1 (localhost)

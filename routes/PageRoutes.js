@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+
 router.get('/', (req, res)=>{
     res.send(`<h1>Welcome Home ${process.env.SOME_VAR}</h1>`)
 });
@@ -28,6 +29,7 @@ router.get('/blog/:page', (req, res)=>{
 router.get('*', (req, res)=>{
     res.send("<h1>404!</h1>")
 });
+
 
 
 
