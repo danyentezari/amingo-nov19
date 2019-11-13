@@ -1,4 +1,5 @@
 // Imports the express package into your file
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
