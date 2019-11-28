@@ -5,6 +5,18 @@ const router = express.Router();
 const UserModel = require('../models/UserModel');
 const secret = process.env.SECRET;
 
+router.get( 
+    '/', // /users
+    (req, res)=> {
+        UserModel.find()
+        .then((users)=>{
+            res.json(users);
+        })
+        .catch((err)=>console.log(err))
+    }
+)
+
+
 router.post('/register', (req, res)=>{
 
     const formData = {
@@ -94,7 +106,7 @@ router.post('/login', (req, res)=>{
                         (err, theJWT)=>{
 
                             // Step 5. Send the JWT to the client
-                            res.json({ token: theJWT })
+                            res.json({ token: theJWT, userid: theUser.id })
                         }
                     )
 

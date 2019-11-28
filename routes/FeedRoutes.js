@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const FeedModel = require('../models/FeedModel')
 
+
 router.post('/', (req, res)=>{ // /feed/...
     const formData = {
         username: req.body.username,
@@ -26,8 +27,12 @@ router.post('/', (req, res)=>{ // /feed/...
 router.post('/addlike', async (req, res)=>{
     
     let userLikes;
-    let theFeedID = req.body.feedid;
-    let userID = req.body.userid;
+
+    // From body in fetch request
+    let theFeedID = req.body.feedid; 
+
+    // From the header in the fetch request (processed by passport)
+    let userID = req.user.id; 
 
     // 1. Get the document with matching id
     let theDocument = await FeedModel

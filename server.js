@@ -1,6 +1,7 @@
 // Imports the express package into your file
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -16,6 +17,7 @@ const initPassportStrategy = require('./config/passport'); // function
 // Create an express app
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(passport.initialize()); //passport
@@ -39,6 +41,17 @@ app.use(
     UserRoutes
 );
 
+app.get( 
+    '/feed/all',
+    (req, res)=> {
+        FeedModel.find()
+        .then((users)=>{
+            res.json(users);
+        })
+        .catch((err)=>console.log(err))
+    }
+);
+
 app.use(
     '/feed',
     passport.authenticate('jwt', {session: false}),
@@ -57,6 +70,6 @@ app.use(
 );
 
 
-app.listen(process.env.PORT || 3000, ()=>{
+app.listen(process.env.PORT || 3010, ()=>{
     console.log('You are connected!')
 }) //http://127.0.0.1 (localhost)
