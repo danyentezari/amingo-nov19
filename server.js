@@ -41,10 +41,17 @@ app.use(
     UserRoutes
 );
 
-app.get( 
+app.post( 
     '/feed/all',
     (req, res)=> {
-        FeedModel.find()
+
+        const timestamp = req.body.timestamp;
+        const dateFilter = timestamp ? { date: {$lt: new Date(timestamp)} } : null;
+
+        FeedModel
+        .find(dateFilter)
+        .sort({ date: -1 })
+        .limit(3)
         .then((users)=>{
             res.json(users);
         })

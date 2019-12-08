@@ -1,18 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const FeedModel = require('../models/FeedModel')
+const FeedModel = require('../models/FeedModel');
+const UserModel = require('../models/UserModel');
 
 
-router.post('/', (req, res)=>{ // /feed/...
+router.post('/', async (req, res)=>{ // /feed/...
     const formData = {
-        username: req.body.username,
+        // username: req.body.username,
         comment: req.body.comment,
-        tags: req.body.tags,
+        // tags: req.body.tags,
         image: req.body.image
     }
 
+    // Get the user's first name and last names 
+    // Note: req.user.id is coming from passport
+    const theUser = await UserModel.findById(req.user.id);
+
+    // Update the formData
+    formData.username = theUser.firstName + ' ' + theUser.lastName;
+
     const newFeed = new FeedModel(formData);
 
+    // Save the feed
     newFeed
     .save()
     .then(newFeedData=>{
